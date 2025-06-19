@@ -175,7 +175,7 @@ class SiteFilterForm(TenancyFilterForm, ContactModelFilterForm, NetBoxModelFilte
         FieldSet('tenant_group_id', 'tenant_id', name=_('Tenant')),
         FieldSet('contact', 'contact_role', 'contact_group', name=_('Contacts')),
     )
-    selector_fields = ('filter_id', 'q', 'region_id', 'group_id')
+    default_selector_fields = ('filter_id', 'q', 'region_id', 'group_id')
     status = forms.MultipleChoiceField(
         label=_('Status'),
         choices=SiteStatusChoices,
@@ -308,7 +308,7 @@ class RackTypeFilterForm(RackBaseFilterForm):
         FieldSet('starting_unit', 'desc_units', name=_('Numbering')),
         FieldSet('weight', 'max_weight', 'weight_unit', name=_('Weight')),
     )
-    selector_fields = ('filter_id', 'q', 'manufacturer_id')
+    default_selector_fields = ('filter_id', 'q', 'manufacturer_id')
     manufacturer_id = DynamicModelMultipleChoiceField(
         queryset=Manufacturer.objects.all(),
         required=False,
@@ -329,7 +329,7 @@ class RackFilterForm(TenancyFilterForm, ContactModelFilterForm, RackBaseFilterFo
         FieldSet('weight', 'max_weight', 'weight_unit', name=_('Weight')),
         FieldSet('contact', 'contact_role', 'contact_group', name=_('Contacts')),
     )
-    selector_fields = ('filter_id', 'q', 'region_id', 'site_group_id', 'site_id', 'location_id')
+    default_selector_fields = ('filter_id', 'q', 'region_id', 'site_group_id', 'site_id', 'location_id')
     region_id = DynamicModelMultipleChoiceField(
         queryset=Region.objects.all(),
         required=False,
@@ -489,7 +489,7 @@ class DeviceTypeFilterForm(NetBoxModelFilterSetForm):
         ),
         FieldSet('weight', 'weight_unit', name=_('Weight')),
     )
-    selector_fields = ('filter_id', 'q', 'manufacturer_id')
+    default_selector_fields = ('filter_id', 'q', 'manufacturer_id')
     manufacturer_id = DynamicModelMultipleChoiceField(
         queryset=Manufacturer.objects.all(),
         required=False,
@@ -608,7 +608,7 @@ class ModuleTypeProfileFilterForm(NetBoxModelFilterSetForm):
     fieldsets = (
         FieldSet('q', 'filter_id', 'tag'),
     )
-    selector_fields = ('filter_id', 'q')
+    default_selector_fields = ('filter_id', 'q')
 
 
 class ModuleTypeFilterForm(NetBoxModelFilterSetForm):
@@ -622,7 +622,7 @@ class ModuleTypeFilterForm(NetBoxModelFilterSetForm):
         ),
         FieldSet('weight', 'weight_unit', name=_('Weight')),
     )
-    selector_fields = ('filter_id', 'q', 'manufacturer_id')
+    default_selector_fields = ('filter_id', 'q', 'manufacturer_id')
     profile_id = DynamicModelMultipleChoiceField(
         queryset=ModuleTypeProfile.objects.all(),
         required=False,
@@ -713,7 +713,7 @@ class DeviceRoleFilterForm(NetBoxModelFilterSetForm):
 
 class PlatformFilterForm(NetBoxModelFilterSetForm):
     model = Platform
-    selector_fields = ('filter_id', 'q', 'manufacturer_id')
+    default_selector_fields = ('filter_id', 'q', 'manufacturer_id')
     manufacturer_id = DynamicModelMultipleChoiceField(
         queryset=Manufacturer.objects.all(),
         required=False,
@@ -752,7 +752,7 @@ class DeviceFilterForm(
             name=_('Miscellaneous')
         )
     )
-    selector_fields = ('filter_id', 'q', 'region_id', 'site_group_id', 'site_id', 'location_id', 'rack_id')
+    default_selector_fields = ('filter_id', 'q', 'region_id', 'site_group_id', 'site_id', 'location_id', 'rack_id')
     region_id = DynamicModelMultipleChoiceField(
         queryset=Region.objects.all(),
         required=False,
@@ -1158,7 +1158,7 @@ class PowerPanelFilterForm(ContactModelFilterForm, NetBoxModelFilterSetForm):
         FieldSet('region_id', 'site_group_id', 'site_id', 'location_id', name=_('Location')),
         FieldSet('contact', 'contact_role', 'contact_group', name=_('Contacts')),
     )
-    selector_fields = ('filter_id', 'q', 'site_id', 'location_id')
+    default_selector_fields = ('filter_id', 'q', 'site_id', 'location_id')
     region_id = DynamicModelMultipleChoiceField(
         queryset=Region.objects.all(),
         required=False,
@@ -1413,7 +1413,7 @@ class InterfaceFilterForm(PathEndpointFilterForm, DeviceComponentFilterForm):
         ),
         FieldSet('cabled', 'connected', 'occupied', name=_('Connection')),
     )
-    selector_fields = ('filter_id', 'q', 'device_id')
+    default_selector_fields = ('filter_id', 'q', 'device_id')
     vdc_id = DynamicModelMultipleChoiceField(
         queryset=VirtualDeviceContext.objects.all(),
         required=False,
@@ -1668,7 +1668,7 @@ class MACAddressFilterForm(NetBoxModelFilterSetForm):
         FieldSet('q', 'filter_id', 'tag'),
         FieldSet('mac_address', 'device_id', 'virtual_machine_id', name=_('MAC address')),
     )
-    selector_fields = ('filter_id', 'q', 'device_id', 'virtual_machine_id')
+    default_selector_fields = ('filter_id', 'q', 'device_id', 'virtual_machine_id')
     mac_address = forms.CharField(
         required=False,
         label=_('MAC address')

@@ -48,7 +48,7 @@ class ClusterFilterForm(TenancyFilterForm, ContactModelFilterForm, NetBoxModelFi
         FieldSet('tenant_group_id', 'tenant_id', name=_('Tenant')),
         FieldSet('contact', 'contact_role', 'contact_group', name=_('Contacts')),
     )
-    selector_fields = ('filter_id', 'q', 'group_id')
+    default_selector_fields = ('filter_id', 'q', 'group_id')
     type_id = DynamicModelMultipleChoiceField(
         queryset=ClusterType.objects.all(),
         required=False,
@@ -205,7 +205,7 @@ class VMInterfaceFilterForm(NetBoxModelFilterSetForm):
         FieldSet('vrf_id', 'l2vpn_id', 'mac_address', name=_('Addressing')),
         FieldSet('mode', 'vlan_translation_policy_id', name=_('802.1Q Switching')),
     )
-    selector_fields = ('filter_id', 'q', 'virtual_machine_id')
+    default_selector_fields = ('filter_id', 'q', 'virtual_machine_id')
     cluster_id = DynamicModelMultipleChoiceField(
         queryset=Cluster.objects.all(),
         required=False,

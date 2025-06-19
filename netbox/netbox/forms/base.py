@@ -1,6 +1,7 @@
 import json
 
 from django import forms
+from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
@@ -159,7 +160,7 @@ class NetBoxModelFilterSetForm(CustomFieldsMixin, SavedFiltersMixin, forms.Form)
         model: The model class associated with the form
         fieldsets: An iterable of two-tuples which define a heading and field set to display per section of
             the rendered form (optional). If not defined, the all fields will be rendered as a single section.
-        selector_fields: An iterable of names of fields to display by default when rendering the form as
+        default_selector_fields: An iterable of names of fields to display by default when rendering the form as
             a selector widget
     """
     q = forms.CharField(
@@ -167,7 +168,12 @@ class NetBoxModelFilterSetForm(CustomFieldsMixin, SavedFiltersMixin, forms.Form)
         label=_('Search')
     )
 
-    selector_fields = ('filter_id', 'q')
+    default_selector_fields = ('filter_id', 'q')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.selector_fields = self._get_configured_selector_fields()
+
 
     def _get_custom_fields(self, content_type):
         return super()._get_custom_fields(content_type).exclude(
@@ -177,3 +183,18 @@ class NetBoxModelFilterSetForm(CustomFieldsMixin, SavedFiltersMixin, forms.Form)
 
     def _get_form_field(self, customfield):
         return customfield.to_form_field(set_initial=False, enforce_required=False, enforce_visibility=False)
+
+    def _get_configured_selector_fields(self):
+        default_fields = self.default_selector_fields
+        model = getattr(self, 'model', None)
+        if not model:
+            return default_fields
+        key = f"{model._meta.app_label}.{model.__name__}"
+        selection_field_config = getattr(settings,"DEFAULT_OBJECT_SELECTION_FIELDS",{})
+        if key not in selection_field_config:
+            return default_fields
+        model_specific_fields = selection_field_config.get(key)
+        if not isinstance(model_specific_fields,list):
+            return default_fields
+
+        return [*default_fields, *model_specific_fields]

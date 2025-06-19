@@ -131,7 +131,7 @@ class CircuitFilterForm(TenancyFilterForm, ContactModelFilterForm, NetBoxModelFi
         FieldSet('tenant_group_id', 'tenant_id', name=_('Tenant')),
         FieldSet('contact', 'contact_role', 'contact_group', name=_('Contacts')),
     )
-    selector_fields = ('filter_id', 'q', 'region_id', 'site_group_id', 'site_id', 'provider_id', 'provider_network_id')
+    default_selector_fields = ('filter_id', 'q', 'region_id', 'site_group_id', 'site_id', 'provider_id', 'provider_network_id')
     type_id = DynamicModelMultipleChoiceField(
         queryset=CircuitType.objects.all(),
         required=False,
@@ -331,7 +331,7 @@ class VirtualCircuitFilterForm(TenancyFilterForm, ContactModelFilterForm, NetBox
         FieldSet('type_id', 'status', name=_('Attributes')),
         FieldSet('tenant_group_id', 'tenant_id', name=_('Tenant')),
     )
-    selector_fields = ('filter_id', 'q', 'provider_id', 'provider_network_id')
+    default_selector_fields = ('filter_id', 'q', 'provider_id', 'provider_network_id')
     provider_id = DynamicModelMultipleChoiceField(
         queryset=Provider.objects.all(),
         required=False,

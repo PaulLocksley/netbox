@@ -334,7 +334,7 @@ class IPAddressFilterForm(ContactModelFilterForm, TenancyFilterForm, NetBoxModel
         FieldSet('device_id', 'virtual_machine_id', name=_('Device/VM')),
         FieldSet('contact', 'contact_role', 'contact_group', name=_('Contacts')),
     )
-    selector_fields = ('filter_id', 'q', 'region_id', 'group_id', 'parent', 'status', 'role')
+    default_selector_fields = ('filter_id', 'q', 'region_id', 'group_id', 'parent', 'status', 'role')
     parent = forms.CharField(
         required=False,
         widget=forms.TextInput(
@@ -531,7 +531,7 @@ class VLANFilterForm(TenancyFilterForm, NetBoxModelFilterSetForm):
         FieldSet('qinq_role', 'qinq_svlan_id', name=_('Q-in-Q/802.1ad')),
         FieldSet('tenant_group_id', 'tenant_id', name=_('Tenant')),
     )
-    selector_fields = ('filter_id', 'q', 'site_id')
+    default_selector_fields = ('filter_id', 'q', 'site_id')
     region_id = DynamicModelMultipleChoiceField(
         queryset=Region.objects.all(),
         required=False,
